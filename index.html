@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta charset="utf-8">
+<style>
+
+  body:hover{
+    background: url('DSC2964-Kopie_o.jpg')  no-repeat;
+  }
+
+.endpoint{
+  fill: none;
+  stroke: red;
+  stroke-width: 20px;
+}
+
+
+.line {
+  stroke: #900;
+  stroke-dasharray: 3,3;
+}
+
+.segment {
+  stroke: #900;
+  stroke-width: 8px;
+}
+
+text {
+  text-anchor: middle;
+}
+
+</style>
+</head>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var width = 1200,
+    height = 749;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+
+var p0 = [width * .3, height * .8],
+    p1 = [width * .8, height * .2];
+
+var bb  = '530,540',
+    tl  = '428,185',
+    dtb = '798,245',
+    dtt = '785,200',
+    bw = '275,500',
+    sp = '400,90',
+    fw = [880,500],
+    ft = [770,150];
+
+
+//    function moveWheel(){
+//      console.log("whee");
+//    }
+
+//  svg.on("click", moveWheel);
+
+svg.selectAll(".endpoint")
+    .data([bw,fw])
+  .enter().append("circle")
+    .attr("class", "endpoint")
+    .attr("transform", function(d) { return "translate(" + d + ")"; })
+    .attr("r", 190);
+// seat
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + [355,85] + "L" + [485,95]);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + bb + "L" + dtb);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + bb + "L" + bw);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + bw + "L" + tl);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + sp + "L" + tl);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + bb + "L" + tl);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + tl + "L" + dtt);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + dtt + "L" + dtb);
+
+
+  //fork
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + ft + "L" + fw);
+
+svg.append("path")
+    .attr("class", "segment")
+    .attr("d", "M" + ft + "L" + [850, 155]);
+
+
+</script>
+</body>
+</html>
