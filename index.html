@@ -42,74 +42,93 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
 
-var p0 = [width * .3, height * .8],
-    p1 = [width * .8, height * .2];
+var resetBw = function(){
+return [275,500];
+}
 
-var bb  = '530,540',
-    tl  = '428,185',
-    dtb = '798,245',
-    dtt = '785,200',
-    bw = '275,500',
-    sp = '400,90',
+var bb  = [530,540],
+    tl  = [428,185],
+    dtb = [798,245],
+    dtt = [785,200],
+    bw = resetBw();
+    sp = [400,90],
     fw = [880,500],
     ft = [770,150];
 
 
-//    function moveWheel(){
-//      console.log("whee");
-//    }
-
-//  svg.on("click", moveWheel);
-
-svg.selectAll(".endpoint")
-    .data([bw,fw])
-  .enter().append("circle")
-    .attr("class", "endpoint")
-    .attr("transform", function(d) { return "translate(" + d + ")"; })
-    .attr("r", 190);
-// seat
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + [355,85] + "L" + [485,95]);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + bb + "L" + dtb);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + bb + "L" + bw);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + bw + "L" + tl);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + sp + "L" + tl);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + bb + "L" + tl);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + tl + "L" + dtt);
-
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + dtt + "L" + dtb);
 
 
-  //fork
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + ft + "L" + fw);
+  var w = svg.selectAll(".endpoint")
+      .data([bw,fw])
+    .enter().append("circle")
+      .attr("class", "endpoint")
+      .attr("transform", function(d) { return "translate(" + d + ")"; })
+      .attr("r", 190);
 
-svg.append("path")
-    .attr("class", "segment")
-    .attr("d", "M" + ft + "L" + [850, 155]);
 
+  var b = svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + bb + "L" + bw);
+
+  var a = svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + bw + "L" + tl);
+
+
+  var origBw0 = bw[0];
+  var origBw1 = bw[1];
+  var i = 0
+  setInterval(function(){
+    bw[0] = bw[0] - 5;
+    bw[1] = bw[1] - 5;
+    if (i === 10){
+      i = 0;
+      bw = resetBw();
+    }
+    a.attr("d", "M" + bw + "L" + tl);
+    b.attr("d", "M" + bb + "L" + bw);
+    svg.selectAll(".endpoint")
+      .data([bw])
+          .attr("transform", function(d) { return "translate(" + d + ")"; })
+      .attr("r", 190);
+    i = i + 1;
+  }, 1000)
+  // seat
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + [355,85] + "L" + [485,95]);
+
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + bb + "L" + dtb);
+
+
+
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + sp + "L" + tl);
+
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + bb + "L" + tl);
+
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + tl + "L" + dtt);
+
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + dtt + "L" + dtb);
+
+
+    //fork
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + ft + "L" + fw);
+
+  svg.append("path")
+      .attr("class", "segment")
+      .attr("d", "M" + ft + "L" + [850, 155]);
 
 </script>
 </body>
