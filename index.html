@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <style>
 
-  body:hover{
-    background: url('DSC2964-Kopie_o.jpg')  no-repeat;
+  body{
+    background: url('geo-no-gusset.gif')  no-repeat;
+    background-position:  385px 293px;
+
   }
 
 .endpoint{
@@ -22,7 +24,7 @@
 
 .segment {
   stroke: #900;
-  stroke-width: 8px;
+  stroke-width: 2px;
 }
 
 text {
@@ -33,8 +35,41 @@ text {
 </head>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="src/Bike.js"></script>
 <script>
+    function offset(coord){
+        return [
+                coord[0] + 600,
+                coord[1] + 600
+        ]
+    }
+    function scale(coord){
+        return [
+            coord[0] / 2,
+            coord[1] / 2,
+        ]
+    }
 
+    function render(coord){
+        return offset(scale(coord))
+    }
+
+    crossCheck = new Bike({ //54cm
+        seatTubeLength: 540,
+        topTubeLength: 59.9,
+        effectiveTopTubeLength: 560,
+        headTubeAngle: 72,
+        seatTubeAngle: 73,
+        bbDrop: 66,
+        chainstayLength: 425,
+        wheelbase: 1014.3,
+        standoverHeight: 793.9,
+        headTubeLength: 102,
+        forkLength: 400,
+        forkRake: 44,
+        stack: 538.4,
+        reach: 389.7
+    })
 var width = 1200,
     height = 749;
 
@@ -42,94 +77,10 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
 
-var resetBw = function(){
-return [275,500];
-}
 
-var bb  = [530,540],
-    tl  = [428,185],
-    dtb = [798,245],
-    dtt = [785,200],
-    bw = resetBw();
-    sp = [400,90],
-    fw = [880,500],
-    ft = [770,150];
-
-
-
-
-  var w = svg.selectAll(".endpoint")
-      .data([bw,fw])
-    .enter().append("circle")
-      .attr("class", "endpoint")
-      .attr("transform", function(d) { return "translate(" + d + ")"; })
-      .attr("r", 190);
-
-
-  var b = svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + bb + "L" + bw);
-
-  var a = svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + bw + "L" + tl);
-
-
-  var origBw0 = bw[0];
-  var origBw1 = bw[1];
-  var i = 0
-  setInterval(function(){
-    bw[0] = bw[0] - 5;
-    bw[1] = bw[1] - 5;
-    if (i === 10){
-      i = 0;
-      bw = resetBw();
-    }
-    a.attr("d", "M" + bw + "L" + tl);
-    b.attr("d", "M" + bb + "L" + bw);
-    svg.selectAll(".endpoint")
-      .data([bw])
-          .attr("transform", function(d) { return "translate(" + d + ")"; })
-      .attr("r", 190);
-    i = i + 1;
-  }, 1000)
-  // seat
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + [355,85] + "L" + [485,95]);
-
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + bb + "L" + dtb);
-
-
-
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + sp + "L" + tl);
-
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + bb + "L" + tl);
-
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + tl + "L" + dtt);
-
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + dtt + "L" + dtb);
-
-
-    //fork
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + ft + "L" + fw);
-
-  svg.append("path")
-      .attr("class", "segment")
-      .attr("d", "M" + ft + "L" + [850, 155]);
-
+    svg.append("path")
+            .attr("class", "segment")
+            .attr("d", "M" + render(crossCheck.coordinates.bottomBracket()) + "L" + render(crossCheck.coordinates.seatTubeTop()));
 </script>
 </body>
 </html>
