@@ -30,11 +30,11 @@ describe("Bike", function(){
             expect(crossCheck.coordinates.bottomBracket()).toEqual([0,0]);
         })
         it("should place the seat tube top at the correct spot", function(){
-            expect(crossCheck.coordinates.seatTubeTop()).toEqual([ -108.7, -405.7 ]);
+            expect(crossCheck.coordinates.seatTubeTop()).toEqual([ -106.1, -396 ]);
         })
 
-        xit("should place the rear hub at the correct spot", function(){
-            expect(crossCheck.coordinates.rearHub()).toEqual([-54.4, -202.8]);
+        it("should place the rear hub at the correct spot", function(){
+            expect(crossCheck.coordinates.rearHub()).toEqual([ -408, -76 ]);
         })
     })
 })

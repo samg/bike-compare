@@ -24,12 +24,23 @@ function Bike(stats){
                return [0,0]
            },
            seatTubeTop: function(){
+               var seatTubeLengthEffective = stats.seatTubeLength - 10;
                var seatTubeAngles = [90, stats.seatTubeAngle, (90 - stats.seatTubeAngle)];
-               var seatTubeLength = stats.seatTubeLength;
-               var vertical = 0 - ( seatTubeLength * Math.sin( radians(stats.seatTubeAngle) ) ) / Math.sin(radians(90))
-               var horizontal = 0 - ( seatTubeLength * Math.sin( radians(90 - stats.seatTubeAngle) ) ) / Math.sin(radians(90))
+               var vertical = 0 - ( seatTubeLengthEffective * Math.sin( radians(stats.seatTubeAngle) ) ) / Math.sin(radians(90))
+               var horizontal = 0 - ( seatTubeLengthEffective * Math.sin( radians(90 - stats.seatTubeAngle) ) ) / Math.sin(radians(90))
                return [round(horizontal), round(vertical)]
            },
+           rearHub: function(){
+               // sin x/stats.bbDrop = sin 90 / stats.chainstayLength
+               var bbDropEffective = stats.bbDrop + 10;
+               var chainStayLengthEffective = stats.chainstayLength - 5;
+               var rearHubAngle = degrees(Math.asin((bbDropEffective * Math.sin(radians(90)))/chainStayLengthEffective));
+               var bbAngle = 90 - rearHubAngle;
+               //  horizontal/ bb = stats.chainstayLength / sin 90
+               var horizontal = (chainStayLengthEffective *  Math.sin(radians(bbAngle))) /  Math.sin(radians(90));
+               return [round(0 - horizontal), round(0 - bbDropEffective)]
+
+           }
        }
     }
 }

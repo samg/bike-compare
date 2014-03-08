@@ -81,6 +81,12 @@ var svg = d3.select("body").append("svg")
     svg.append("path")
             .attr("class", "segment")
             .attr("d", "M" + render(crossCheck.coordinates.bottomBracket()) + "L" + render(crossCheck.coordinates.seatTubeTop()));
+    svg.append("path")
+            .attr("class", "segment")
+            .attr("d", "M" + render(crossCheck.coordinates.bottomBracket()) + "L" + render(crossCheck.coordinates.rearHub()));
+    svg.append("path")
+            .attr("class", "segment")
+            .attr("d", "M" + render(crossCheck.coordinates.seatTubeTop()) + "L" + render(crossCheck.coordinates.rearHub()));
 </script>
 </body>
 </html>
