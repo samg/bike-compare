@@ -4,18 +4,22 @@
 <meta charset="utf-8">
 <style>
 
-  body{
+  #bike1{
     background: url('geo-no-gusset.gif')  no-repeat;
-    background-position:  385px 293px;
+    height: 364px;
+    width: 549px;
 
   }
-
+  #bike2{
+      background: url('geo-no-gusset.gif')  no-repeat;
+      height: 364px;
+      width: 549px;
+  }
 .endpoint{
   fill: none;
   stroke: red;
   stroke-width: 20px;
 }
-
 
 .line {
   stroke: #900;
@@ -34,13 +38,17 @@ text {
 </style>
 </head>
 <body>
+<div id="bike1"> </div>
+<div id="bike2"> </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="src/Bike.js"></script>
 <script>
+    var height= 364,
+            width = 549;
     function offset(coord){
         return [
-                coord[0] + 600,
-                coord[1] + 600
+                coord[0] + 223,
+                coord[1] + 315
         ]
     }
     function scale(coord){
@@ -52,6 +60,23 @@ text {
 
     function render(coord){
         return offset(scale(coord))
+    }
+
+    function drawBike(id,bike){
+        var svg = d3.select(id).append("svg")
+                .attr("width", width)
+                .attr("height", height)
+
+
+        svg.append("path")
+                .attr("class", "segment")
+                .attr("d", "M" + render(bike.coordinates.bottomBracket()) + "L" + render(bike.coordinates.seatTubeTop()));
+        svg.append("path")
+                .attr("class", "segment")
+                .attr("d", "M" + render(bike.coordinates.bottomBracket()) + "L" + render(bike.coordinates.rearHub()));
+        svg.append("path")
+                .attr("class", "segment")
+                .attr("d", "M" + render(bike.coordinates.seatTubeTop()) + "L" + render(bike.coordinates.rearHub()));
     }
 
     crossCheck = new Bike({ //54cm
@@ -70,23 +95,9 @@ text {
         stack: 538.4,
         reach: 389.7
     })
-var width = 1200,
-    height = 749;
+    drawBike('#bike1', crossCheck)
+    drawBike('#bike2', crossCheck)
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-
-
-    svg.append("path")
-            .attr("class", "segment")
-            .attr("d", "M" + render(crossCheck.coordinates.bottomBracket()) + "L" + render(crossCheck.coordinates.seatTubeTop()));
-    svg.append("path")
-            .attr("class", "segment")
-            .attr("d", "M" + render(crossCheck.coordinates.bottomBracket()) + "L" + render(crossCheck.coordinates.rearHub()));
-    svg.append("path")
-            .attr("class", "segment")
-            .attr("d", "M" + render(crossCheck.coordinates.seatTubeTop()) + "L" + render(crossCheck.coordinates.rearHub()));
 </script>
 </body>
 </html>
